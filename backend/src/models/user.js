@@ -1,95 +1,75 @@
-const {model, Schema} = require('mongoose');
-const {isEmail} = require('validator');
-const {encryptPassword, checkPassword} = require('../../bcrypt');
-const { generateToken } = require('../utils/jwt');  // Add this import
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
-const userSchema = new Schema({
-    firstName: {
-        type: String,
-        trim: true,
-        required: [true, 'First name is required']
-    },
-    lastName: {
-        type: String,
-        trim: true,
-        required: [true, 'Last name is required']
-    },
-    email: {
-        type: String,
-        trim: true,
-        required: [true, 'Email is required'],
-        unique: true,  // This creates an index automatically
-        lowercase: true,
-        validate: [isEmail, 'Invalid email format']
-    },
-    password: {
-        type: String,
-        required: [true, 'Password is required'],
-        trim: true,
-        minlength: [8, 'Password must be at least 8 characters'],
-        validate: {
-            validator: function(pass) {
-                return !pass.toLowerCase().includes('password');
-            },
-            message: 'Password should not contain the word "password"'
-        }
-    },
-    role: {
-        type: String,
-        enum: ['user','librarian'],
-        default: 'user'
-    },
-    isActive: {
-        type: Boolean,
-        default: true
-    },
-    tokens: [{
-        token: {
-            type: String,
-            required: true
-        }
-    }]
+const userSchema = new mongoose.Schema({
+  firstName: {
+    type: String,
+    required: [true, 'First name is required'],
+    trim: true
+  },
+  lastName: {
+    type: String,
+    required: [true, 'Last name is required'],
+    trim: true
+  },
+  email: {
+    type: String,
+    required: [true, 'Email is required'],
+    unique: true,
+    lowercase: true,
+    trim: true
+  },
+  password: {
+    type: String,
+    required: [true, 'Password is required'],
+    minlength: 6
+  },
+  role: {
+    type: String,
+    enum: ['user', 'librarian'],
+    default: 'user'
+  },
+  isActive: {
+    type: Boolean,
+    default: true
+  }
 }, {
-    timestamps: true
+  timestamps: true
 });
 
-userSchema.pre('save',async function(next){
-    const user = this ;
-    if(user.modifiedPaths().includes('password')){
-        user.password = await encryptPassword(user.password);
-    }
-    next();
-})
+userSchema.pre('save', async function(next) {
+  if (!this.isModified('password')) return next();
+  this.password = await bcrypt.hash(this.password, 12);
+  next();
+});
 
-//Autherization method
-userSchema.statics.findByEmailAndPasswordForAuth = async function (email, password) {
+// Instance method to generate token
+userSchema.methods.generateToken = function() {
+  const jwt = require('jsonwebtoken');
+  const secret = process.env.CS_SECRET_KEY || 'CS_SECRET_KEY';
+  return jwt.sign({
+    userId: this._id,
+    email: this.email,
+    role: this.role
+  }, secret, { expiresIn: '24h' });
+};
+
+// Static method for login
+userSchema.statics.findByEmailAndPasswordForAuth = async function(email, password) {
   const user = await this.findOne({ email });
-  if (!user) {
-    throw new Error("Invalid login credentials");
-  }
-  const isMatch = await checkPassword(password, user.password);
-  if (!isMatch) {
-    throw new Error("Invalid login credentials");
-  }
+  if (!user) throw new Error('Invalid credentials');
+  
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) throw new Error('Invalid credentials');
+  
   return user;
 };
 
-userSchema.methods.generateToken = async function(){
-    const user = this;
-    const token = generateToken(user);
-    user.tokens.push({token});
-    await user.save();
-    return token;
-}
-userSchema.methods.toJSON = function () {
-    const user = this;
-    const userObject = user.toObject();
+// Remove password from JSON output
+userSchema.methods.toJSON = function() {
+  const user = this.toObject();
+  delete user.password;
+  return user;
+};
 
-    delete userObject.password;
-    delete userObject.tokens;
-    return userObject;
-}
-
-const User = model('User', userSchema);
-
-module.exports = User;
+module.exports = mongoose.model('User', userSchema);
