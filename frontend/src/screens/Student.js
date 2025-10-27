@@ -69,7 +69,7 @@ const Student = () => {
         <div className="flex gap-4 mb-8 justify-center">
           <div 
             onClick={handleViewBorrowedBooks}
-            className="bg-gray-700 rounded-lg p-4 shadow-md hover:shadow-lg transition-all cursor-pointer hover:bg-gray-600 w-48"
+            className="bg-gray-500 rounded-lg p-4 shadow-md hover:shadow-lg transition-all cursor-pointer hover:bg-gray-600 w-48"
           >
             <h2 className="text-lg font-bold text-white mb-1">My Library</h2>
             <p className="text-gray-200 text-sm">Borrowed Books: {borrowedCount}</p>
@@ -77,7 +77,7 @@ const Student = () => {
           
           <div 
             onClick={() => navigate('/books')}
-            className="bg-gray-700 rounded-lg p-4 shadow-md hover:shadow-lg transition-all cursor-pointer hover:bg-gray-600 w-48"
+            className="bg-gray-500 rounded-lg p-4 shadow-md hover:shadow-lg transition-all cursor-pointer hover:bg-gray-600 w-48"
           >
             <h2 className="text-lg font-bold text-white mb-1">Discover Books</h2>
             <p className="text-gray-200 text-sm">Browse All Books</p>

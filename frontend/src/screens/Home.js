@@ -52,6 +52,9 @@ const Home = () => {
       {/* Hero Section */}
       <div className="flex items-center justify-center min-h-screen px-4">
         <div className="text-center">
+          <div className="mb-8">
+            <span className="text-2xl md:text-3xl font-medium text-blue-600 animate-typewriter">Welcome to Library App</span>
+          </div>
           <h1 className="text-8xl font-bold text-gray-800 mb-6">
             Library<span className="text-blue-600">App</span>
           </h1>
