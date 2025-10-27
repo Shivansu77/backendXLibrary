@@ -61,6 +61,9 @@ export default function Navbar({ onLoginClick, onRegisterClick }) {
             <Link to="/" className="hover:text-orange-200 transition">
               Home
             </Link>
+            <Link to="/about" className="hover:text-orange-200 transition">
+              About Us
+            </Link>
             {user && (
               <>
                 <Link to="/dashboard" className="hover:text-orange-200 transition">
@@ -148,6 +151,9 @@ export default function Navbar({ onLoginClick, onRegisterClick }) {
           <div className="px-2 pt-2 pb-3 space-y-1">
             <Link to="/" className="block px-3 py-2 rounded hover:bg-orange-600 transition">
               Home
+            </Link>
+            <Link to="/about" className="block px-3 py-2 rounded hover:bg-orange-600 transition">
+              About Us
             </Link>
             {user && (
               <>

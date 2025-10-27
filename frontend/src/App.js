@@ -8,24 +8,29 @@ import Librarian from './screens/Librarian';
 import Register from './screens/Register';
 import AllBooksScreen from './screens/AllBooksScreen';
 import NavBar from './components/NavBar';
+import Footer from './components/Footer';
 import PrivateRoute from './components/privateRoute';
 import AddBookScreen from './screens/AddBookScreen';
 import IssuedForm from './screens/IssuedForm';
 import IssuedScreen from './screens/IssuedScreen';
 import Home from './screens/Home';
+import AboutUs from './screens/AboutUs';
 
 const Layout = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <NavBar 
         onLoginClick={() => setShowLogin(true)}
         onRegisterClick={() => setShowRegister(true)}
       />
-      <Outlet context={{ showLogin, setShowLogin, showRegister, setShowRegister }} />
-    </>
+      <main className="flex-grow">
+        <Outlet context={{ showLogin, setShowLogin, showRegister, setShowRegister }} />
+      </main>
+      <Footer />
+    </div>
   );
 };
 
@@ -44,6 +49,7 @@ function App() {
           <Route path="add-book" element={<AddBookScreen />} />
           <Route path="issue-book" element={<IssuedForm />} />
           <Route path="issued-books" element={<IssuedScreen />} />
+          <Route path="about" element={<AboutUs />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Route>
       </Routes>
