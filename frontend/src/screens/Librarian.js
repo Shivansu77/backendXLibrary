@@ -23,17 +23,42 @@ const Librarian = () => {
           <div className="bg-white p-6 rounded-lg shadow-md border">
             <h2 className="text-xl font-semibold mb-3 text-gray-800">📚 Manage Books</h2>
             <p className="text-gray-600 mb-4">Add, edit, or remove books from catalog</p>
-            <button className="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded transition-colors">
-              Manage Books
-            </button>
+            <div className="space-y-2">
+              <button 
+                onClick={() => navigate('/add-book')}
+                className="w-full bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded transition-colors"
+              >
+                Add Book
+              </button>
+              <button 
+                onClick={() => navigate('/books')}
+                className="w-full bg-purple-400 hover:bg-purple-500 text-white px-4 py-2 rounded transition-colors"
+              >
+                View All Books
+              </button>
+              <button 
+                onClick={() => navigate('/issue-book')}
+                className="w-full bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded transition-colors"
+              >
+                Issue Book
+              </button>
+            </div>
           </div>
           
           <div className="bg-white p-6 rounded-lg shadow-md border">
             <h2 className="text-xl font-semibold mb-3 text-gray-800">👥 Manage Students</h2>
             <p className="text-gray-600 mb-4">View and manage student accounts</p>
-            <button className="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded transition-colors">
-              View Students
-            </button>
+            <div className="space-y-2">
+              <button className="w-full bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded transition-colors">
+                View Students
+              </button>
+              <button 
+                onClick={() => navigate('/issued-books')}
+                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded transition-colors"
+              >
+                Issued Books
+              </button>
+            </div>
           </div>
           
           <div className="bg-white p-6 rounded-lg shadow-md border">

@@ -125,7 +125,7 @@ const AddBookScreen = () => {
         </div>
         <button
           type="submit"
-          className="bg-green-600 text-white py-2 px-6 rounded hover:bg-green-700"
+          className="bg-green-600 text-white py-2 px-6 rounded hover:bg-green-800"
         >
           Add Book
         </button>

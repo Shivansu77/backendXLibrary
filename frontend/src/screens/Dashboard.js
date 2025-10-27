@@ -5,31 +5,46 @@ import { LogoutUser } from '../utils/UserApi';
 const Dashboard = () => {
   const [userType, setUserType] = useState('');
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+  
+  // For testing purposes, we'll use a simple redirect function
+  const navigate = window.location ? 
+    (path) => { window.location.href = path; } : 
+    () => { console.log('Navigation not available'); };
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      const user = JSON.parse(storedUser);
-      setUserType(user.role);
-      setLoading(false);
+    try {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        const user = JSON.parse(storedUser);
+        setUserType(user.role);
+        setLoading(false);
 
-      // Auto-redirect as soon as we know the role
-      if (user.role === 'librarian') {
-        navigate('/librarian');
-      } else if (user.role === 'user') {
-        navigate('/student');
+        // Auto-redirect as soon as we know the role
+        if (user.role === 'librarian') {
+          navigate('/librarian');
+        } else if (user.role === 'user') {
+          navigate('/student');
+        }
+      } else {
+        // No user, force login
+        setLoading(false);
+        navigate('/login');
       }
-    } else {
-      // No user, force login
+    } catch (error) {
+      console.error('Navigation error:', error);
       setLoading(false);
-      navigate('/login');
     }
-  }, [navigate]);
+  }, []);
 
   const handleLogout = async () => {
-    await LogoutUser();
-    navigate('/login');
+    try {
+      await LogoutUser();
+      navigate('/login');
+    } catch (error) {
+      console.error('Logout error:', error);
+      // Fallback navigation
+      window.location.href = '/login';
+    }
   };
 
   if (loading) {

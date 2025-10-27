@@ -32,8 +32,11 @@ const Student = () => {
           <div className="bg-white p-6 rounded-lg shadow-md border">
             <h2 className="text-xl font-semibold mb-3 text-gray-800">🔍 Search Books</h2>
             <p className="text-gray-600 mb-4">Find books in the library catalog</p>
-            <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition-colors">
-              Search Catalog
+            <button 
+              onClick={() => navigate('/books')}
+              className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition-colors"
+            >
+              Browse All Books
             </button>
           </div>
         </div>

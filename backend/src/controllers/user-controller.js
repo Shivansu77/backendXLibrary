@@ -77,8 +77,22 @@ const getUserInfo = async (req, res) => {
     }
 };
 
+// Get all students
+const getAllStudents = async (req, res) => {
+    try {
+        const students = await User.find({ role: 'user', isActive: true })
+            .select('firstName lastName email')
+            .sort({ firstName: 1 });
+        res.json(students);
+    } catch (error) {
+        console.error('Get students error:', error);
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
 module.exports = {
     registerUser,
     loginUser,
-    getUserInfo
+    getUserInfo,
+    getAllStudents
 };

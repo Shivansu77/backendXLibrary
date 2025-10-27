@@ -1,4 +1,4 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 const PrivateRoute = ({ children, requiredRole }) => {
@@ -8,20 +8,36 @@ const PrivateRoute = ({ children, requiredRole }) => {
 
   useEffect(() => {
     const checkAuth = () => {
-      const token = localStorage.getItem("token");
-      const user = localStorage.getItem("user");
-      console.log('PrivateRoute checkAuth - token:', token, 'user:', user);
-      
-      if (token && user) {
-        const userData = JSON.parse(user);
-        console.log('User data:', userData);
-        setIsAuthenticated(true);
-        setUserRole(userData.role);
-      } else {
+      try {
+        const token = localStorage.getItem("token");
+        const user = localStorage.getItem("user");
+        console.log('PrivateRoute checkAuth - token:', token ? 'exists' : 'missing', 'user:', user ? 'exists' : 'missing');
+        
+        if (token && user) {
+          try {
+            const userData = JSON.parse(user);
+            console.log('User data role:', userData.role);
+            setIsAuthenticated(true);
+            setUserRole(userData.role);
+          } catch (error) {
+            console.error('Error parsing user data:', error);
+            setIsAuthenticated(false);
+            setUserRole(null);
+            // Clear invalid data
+            localStorage.removeItem('user');
+            localStorage.removeItem('token');
+          }
+        } else {
+          setIsAuthenticated(false);
+          setUserRole(null);
+        }
+      } catch (error) {
+        console.error('Error in checkAuth:', error);
         setIsAuthenticated(false);
         setUserRole(null);
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     };
 
     checkAuth();
@@ -36,19 +52,26 @@ const PrivateRoute = ({ children, requiredRole }) => {
 
   if (isLoading) {
     console.log('PrivateRoute: Still loading...');
-    return <div>Loading...</div>;
+    return <div className="flex items-center justify-center min-h-screen">
+      <div className="text-lg text-gray-600">Loading...</div>
+    </div>;
   }
 
   if (!isAuthenticated) {
     console.log('PrivateRoute: Not authenticated, redirecting to login');
-    return <Navigate to="/login" replace />;
+    // Use window.location for a full page reload to avoid React Router context issues
+    window.location.href = '/login';
+    return null;
   }
 
   if (requiredRole && userRole !== requiredRole) {
     console.log('PrivateRoute: Wrong role, redirecting. UserRole:', userRole, 'RequiredRole:', requiredRole);
-    return <Navigate to={userRole === "librarian" ? "/librarian" : "/student"} replace />;
+    const redirectPath = userRole === "librarian" ? "/librarian" : "/student";
+    window.location.href = redirectPath;
+    return null;
   }
-
+  
+  // Authentication successful, render children
   console.log('PrivateRoute: Rendering children');
   return children;
 };

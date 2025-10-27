@@ -16,20 +16,9 @@ const authMiddleware = async (req, res, next) => {
 
     const token = parts[1];
     const decoded = jwt.verify(token, secret);
-
-    // ------- Recommended: Look up user -------
-    // Suppose your payload has: decoded._id or decoded.id or decoded.email
-    // Adjust this depending on what you put in your token
-    const user = await User.findOne({ _id: decoded._id || decoded.id || decoded.userId });
-    if (!user) {
-      return res.status(401).json({ msg: 'User not found or deleted' });
-    }
-    if (user.isActive === false) {
-      return res.status(401).json({ msg: 'User not active' });
-    }
-
-    // Attach to request for later use (optional)
-    req.user = user;
+    
+    // Set user info on request object
+    req.user = decoded;
     next();
   } catch (err) {
     console.error(err);
@@ -37,4 +26,4 @@ const authMiddleware = async (req, res, next) => {
   }
 };
 
-module.exports = authMiddleware; // Use module.exports for CommonJS in Node
+module.exports = authMiddleware;

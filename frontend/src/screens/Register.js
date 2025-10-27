@@ -131,15 +131,7 @@ const Register = () => {
                     `flex items-center justify-center w-6 h-6 rounded-full bg-white shadow-lg transform duration-300 ease-in-out
                     ${form.role === "librarian" ? "translate-x-7 text-green-700" : "translate-x-0 text-gray-900"}`
                   }>
-                  {form.role === "librarian" ? (
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 12l8-4-8-4-8 4 8 4zm0 0v8" />
-                    </svg>
-                  ) : (
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                      <circle cx="12" cy="12" r="8" />
-                    </svg>
-                  )}
+                  {form.role === "librarian" ? "L" : "U"}
                 </span>
               </button>
               <span className={`font-semibold text-sm ${form.role === "librarian" ? "text-green-700" : "text-gray-400"}`}>Librarian</span>

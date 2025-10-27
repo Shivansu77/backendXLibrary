@@ -1,5 +1,5 @@
 import './App.css';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import LoginScreen from './screens/LoginScreen';
 import Dashboard from './screens/Dashboard';
 import Student from './screens/Student';
@@ -7,92 +7,38 @@ import Librarian from './screens/Librarian';
 import Register from './screens/Register';
 import AllBooksScreen from './screens/AllBooksScreen';
 import NavBar from './components/NavBar';
-import PrivateRoute from '../src/components/privateRoute'; // IMPORT IS CASE-SENSITIVE!
+import PrivateRoute from './components/privateRoute';
 import AddBookScreen from './screens/AddBookScreen';
+import IssuedForm from './screens/IssuedForm';
+import IssuedScreen from './screens/IssuedScreen';
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: (
-      <>
-        <NavBar />
-        <LoginScreen />
-      </>
-    )
-  },
-  {
-    path: "/login",
-    element: (
-      <>
-        <NavBar />
-        <LoginScreen />
-      </>
-    )
-  },
-  {
-    path: "/dashboard",
-    element: (
-      <>
-        <NavBar />
-        <Dashboard />
-      </>
-    )
-  },
-  {
-    path: "/student",
-    element: (
-      <>
-        <NavBar />
-        <PrivateRoute requiredRole="user">
-          <Student />
-        </PrivateRoute>
-      </>
-    )
-  },
-  {
-    path: "/librarian",
-    element: (
-      <>
-        <NavBar />
-        <PrivateRoute requiredRole="librarian">
-          <Librarian />
-        </PrivateRoute>
-      </>
-    )
-  },
-  {
-    path: "/register",
-    element: (
-      <>
-        <NavBar />
-        <Register />
-      </>
-    )
-  },
-  {
-    path: "/books",
-    element: (
-      <>
-        <NavBar />
-        <PrivateRoute>
-          <AllBooksScreen />
-        </PrivateRoute>
-      </>
-    )
-  },
-  {
-    path: "/add-book",
-    element: (
-      <>
-        <NavBar />
-        <AddBookScreen />
-      </>
-    )
-  }
-]);
+const Layout = () => (
+  <>
+    <NavBar />
+    <Outlet />
+  </>
+);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<LoginScreen />} />
+          <Route path="login" element={<LoginScreen />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="student" element={<Student />} />
+          <Route path="librarian" element={<Librarian />} />
+          <Route path="register" element={<Register />} />
+          <Route path="books" element={<AllBooksScreen />} />
+          <Route path="add-book" element={<AddBookScreen />} />
+          <Route path="issue-book" element={<IssuedForm />} />
+          <Route path="issued-books" element={<IssuedScreen />} />
+          <Route path="*" element={<Navigate to="/login" replace />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
