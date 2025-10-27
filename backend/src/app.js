@@ -29,27 +29,6 @@ app.use((req, res, next) => {
 });
 
 // Direct test endpoint that bypasses all middleware
-app.get('/test-issued-books', (req, res) => {
-  // Return hardcoded sample data
-  res.status(200).json([
-    {
-      id: '1',
-      bookTitle: 'The Great Gatsby',
-      studentName: 'John Doe',
-      issueDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
-      dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      status: 'issued'
-    },
-    {
-      id: '2',
-      bookTitle: 'To Kill a Mockingbird',
-      studentName: 'Jane Smith',
-      issueDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
-      dueDate: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000),
-      status: 'overdue'
-    }
-  ]);
-});
 
 // Routes
 app.use('/user', userRoutes);

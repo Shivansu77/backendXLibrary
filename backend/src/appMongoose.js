@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const MONGO_URI = 'mongodb+srv://shivansubisht77_db_user:%40Shark77@cluster0.yswq0zd.mongodb.net/libApp';
+const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://shivansubisht77_db_user:kickbash@cluster0.vvq8ihf.mongodb.net/libApp?appName=Cluster0';
 
 const connectDB = async () => {
     try {

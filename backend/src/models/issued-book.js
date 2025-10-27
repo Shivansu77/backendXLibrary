@@ -32,16 +32,4 @@ const issuedBookSchema = new mongoose.Schema({
     timestamps: true
 });
 
-// Update status to overdue if past due date
-issuedBookSchema.pre('find', function() {
-    const now = new Date();
-    this.updateMany(
-        { 
-            dueDate: { $lt: now }, 
-            status: 'issued' 
-        },
-        { status: 'overdue' }
-    );
-});
-
-module.exports = mongoose.model('IssuedBook', issuedBookSchema);
+module.exports = mongoose.model('IssuedBook', issuedBookSchema, 'issuedbooks');

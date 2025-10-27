@@ -35,4 +35,14 @@ const getAllStudents = async () => {
     return data;
 };
 
-export { getIssuedBooks, issueBook, returnBook, getAllStudents };
+const studentIssueBook = async (bookId) => {
+    const { data } = await LibraryAppBackend.post('/issued/student-issue', { bookId });
+    return data;
+};
+
+const getMyBorrowedBooks = async () => {
+    const { data } = await LibraryAppBackend.get('/issued/my-books');
+    return data;
+};
+
+export { getIssuedBooks, issueBook, returnBook, getAllStudents, studentIssueBook, getMyBorrowedBooks };

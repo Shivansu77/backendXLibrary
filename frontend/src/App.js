@@ -1,4 +1,5 @@
 import './App.css';
+import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import LoginScreen from './screens/LoginScreen';
 import Dashboard from './screens/Dashboard';
@@ -11,20 +12,29 @@ import PrivateRoute from './components/privateRoute';
 import AddBookScreen from './screens/AddBookScreen';
 import IssuedForm from './screens/IssuedForm';
 import IssuedScreen from './screens/IssuedScreen';
+import Home from './screens/Home';
 
-const Layout = () => (
-  <>
-    <NavBar />
-    <Outlet />
-  </>
-);
+const Layout = () => {
+  const [showLogin, setShowLogin] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
+  
+  return (
+    <>
+      <NavBar 
+        onLoginClick={() => setShowLogin(true)}
+        onRegisterClick={() => setShowRegister(true)}
+      />
+      <Outlet context={{ showLogin, setShowLogin, showRegister, setShowRegister }} />
+    </>
+  );
+};
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<LoginScreen />} />
+          <Route index element={<Home />} />
           <Route path="login" element={<LoginScreen />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="student" element={<Student />} />
