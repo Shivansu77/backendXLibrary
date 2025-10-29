@@ -48,10 +48,10 @@ const Register = () => {
   };
 
   return (
-    <section className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-sm">
-        <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-lg px-8 py-6">
-          <h2 className="text-2xl font-semibold text-center mb-6 text-gray-800">Register</h2>
+    <section className="flex items-center justify-center min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">
+      <div className="w-full max-w-md">
+        <form onSubmit={handleSubmit} className="bg-white shadow-xl rounded-xl px-8 py-8 border-t-4 border-emerald-500">
+          <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">Create Account</h2>
           {error && <div className="mb-4 text-red-600 text-center">{error}</div>}
 
           {/* First Name */}
@@ -147,16 +147,16 @@ const Register = () => {
           <div className="text-center">
             <button
               type="submit"
-              className="bg-green-600 text-white px-5 py-2 rounded-lg hover:bg-green-700 transition-colors"
+              className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white px-6 py-3 rounded-lg transition-all font-medium shadow-lg hover:shadow-xl transform hover:scale-105"
             >
-              Register
+              Create Account
             </button>
           </div>
         </form>
 
-        <div className="text-center mt-4">
-          <Link to="/login" className="text-blue-600 hover:underline">
-            Already have an account? Login
+        <div className="text-center mt-6">
+          <Link to="/login" className="text-indigo-600 hover:text-indigo-800 font-medium transition">
+            Already have an account? Sign in
           </Link>
         </div>
       </div>

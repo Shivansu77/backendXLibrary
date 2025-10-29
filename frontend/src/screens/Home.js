@@ -48,29 +48,29 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-[#0F0F0F] text-white">
       {/* Hero Section */}
       <div className="flex items-center justify-center min-h-screen px-4">
         <div className="text-center">
           <div className="mb-8">
-            <span className="text-2xl md:text-3xl font-medium text-blue-600 animate-typewriter">Welcome to Library App</span>
+            <span className="text-2xl md:text-3xl font-medium text-[#20A4F3] animate-typewriter">Welcome to Library App</span>
           </div>
-          <h1 className="text-8xl font-bold text-gray-800 mb-6">
-            Library<span className="text-blue-600">App</span>
+          <h1 className="text-8xl font-bold text-white mb-6">
+            Library<span className="text-[#20A4F3]">App</span>
           </h1>
-          <p className="text-2xl text-gray-600 mb-8 max-w-2xl mx-auto">
+          <p className="text-2xl text-gray-300 mb-8 max-w-2xl mx-auto">
             Your digital gateway to knowledge. Discover, borrow, and manage books with ease.
           </p>
           <div className="space-x-4">
             <button
               onClick={() => navigate('/login')}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg font-medium transition-colors"
+              className="bg-[#20A4F3] hover:bg-[#1B8FD9] text-white px-8 py-4 rounded-lg text-lg font-medium transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
             >
               Get Started
             </button>
             <button
               onClick={() => navigate('/books')}
-              className="bg-white hover:bg-gray-50 text-blue-600 border-2 border-blue-600 px-8 py-4 rounded-lg text-lg font-medium transition-colors"
+              className="bg-transparent hover:bg-[#20A4F3] text-[#20A4F3] hover:text-white border-2 border-[#20A4F3] px-8 py-4 rounded-lg text-lg font-medium transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
             >
               Browse Books
             </button>

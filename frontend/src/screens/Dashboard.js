@@ -56,17 +56,26 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
-      <p className="text-lg">
-        Welcome, you are logged in as: <span className="font-semibold text-green-700">{userType}</span>
-      </p>
-      <button
-        onClick={handleLogout}
-        className="mt-6 bg-red-600 text-white px-5 py-2 rounded-lg hover:bg-red-700 transition-colors"
-      >
-        Logout
-      </button>
+    <div className="min-h-screen bg-[#0F0F0F] text-white p-6">
+      <div className="max-w-4xl mx-auto">
+        <div className="bg-[#1C1C1E] rounded-lg border border-gray-800 p-8">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-semibold text-white mb-3">Dashboard</h1>
+            <p className="text-gray-400">
+              Welcome back, <span className="text-[#20A4F3] font-medium">{userType}</span>
+            </p>
+          </div>
+          
+          <div className="flex justify-center">
+            <button
+              onClick={handleLogout}
+              className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-md transition-colors text-sm font-medium"
+            >
+              Sign Out
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

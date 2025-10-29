@@ -6,15 +6,15 @@ const BookCard = ({ book, onIssueBook }) => {
   const isAvailable = book.issuedQuantity < book.totalQuantity;
   
   return (
-    <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 hover:border-cyan-300 hover:bg-cyan-50/30 transition-all duration-200 cursor-pointer">
-      <h3 className="text-base font-semibold mb-1 truncate">{book.title}</h3>
-      <p className="text-gray-600 text-sm mb-2">by {book.author}</p>
+    <div className="bg-[#1C1C1E] p-4 rounded-lg border border-gray-800 hover:border-gray-700 transition-colors">
+      <h3 className="text-base font-medium mb-1 truncate text-white">{book.title}</h3>
+      <p className="text-gray-400 text-sm mb-2">by {book.author}</p>
       
       <div className="space-y-1 mb-3">
         <p className="text-xs text-gray-500">ISBN: {book.isbn}</p>
         <p className="text-xs text-gray-500">Genre: {book.genre}</p>
-        <p className="text-xs text-gray-600 font-medium">Price: ₹{book.price}</p>
-        <p className="text-xs text-gray-600">Total: {book.totalQuantity} | Issued: {book.issuedQuantity}</p>
+        <p className="text-xs text-gray-400 font-medium">Price: ₹{book.price}</p>
+        <p className="text-xs text-gray-400">Total: {book.totalQuantity} | Issued: {book.issuedQuantity}</p>
         {book.publicationDate && (
           <p className="text-xs text-gray-500">Published: {new Date(book.publicationDate).getFullYear()}</p>
         )}
@@ -22,10 +22,10 @@ const BookCard = ({ book, onIssueBook }) => {
       
       <button 
         onClick={() => onIssueBook(book._id)}
-        className={`w-full py-1.5 px-3 rounded text-sm font-medium ${
+        className={`w-full py-2 px-3 rounded-md text-sm font-medium transition-colors ${
           isAvailable 
-            ? 'bg-green-600 hover:bg-green-700 text-white' 
-            : 'bg-gray-400 text-gray-600 cursor-not-allowed'
+            ? 'bg-[#20A4F3] hover:bg-[#1B8FD9] text-white' 
+            : 'bg-gray-700 text-gray-500 cursor-not-allowed'
         }`}
         disabled={!isAvailable}
       >
@@ -72,29 +72,36 @@ const AllBooksScreen = () => {
   if (error) return <div className="text-center p-8 text-red-600">{error}</div>;
 
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6">All Books</h1>
-      
-      {success && (
-        <div className="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
-          {success}
+    <div className="min-h-screen bg-[#0F0F0F] text-white">
+      <div className="container mx-auto p-6">
+        <div className="bg-[#1C1C1E] rounded-lg border border-gray-800 p-6 mb-6">
+          <h1 className="text-2xl font-semibold text-white mb-1">Library Collection</h1>
+          <p className="text-gray-400">Discover and borrow books</p>
         </div>
-      )}
       
-      {error && (
-        <div className="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
-          {error}
+        {success && (
+          <div className="mb-4 p-3 bg-green-900/20 border border-green-800 text-green-300 rounded-lg">
+            {success}
+          </div>
+        )}
+        
+        {error && (
+          <div className="mb-4 p-3 bg-red-900/20 border border-red-800 text-red-300 rounded-lg">
+            {error}
+          </div>
+        )}
+      
+        <div className="grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          {books.map((book) => (
+            <BookCard key={book._id} book={book} onIssueBook={handleIssueBook} />
+          ))}
         </div>
-      )}
-      
-      <div className="grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-        {books.map((book) => (
-          <BookCard key={book._id} book={book} onIssueBook={handleIssueBook} />
-        ))}
+        {books.length === 0 && (
+          <div className="text-center py-12">
+            <p className="text-gray-400">No books available</p>
+          </div>
+        )}
       </div>
-      {books.length === 0 && (
-        <p className="text-center text-gray-500 mt-8">No books available</p>
-      )}
     </div>
   );
 };

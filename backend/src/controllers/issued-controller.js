@@ -108,7 +108,13 @@ const returnBook = async (req, res) => {
 const studentIssueBook = async (req, res) => {
     try {
         const { bookId } = req.body;
-        const studentId = req.user._id || req.user.id || req.user.userId;
+        const studentId = req.user.userId || req.user._id || req.user.id;
+        
+        console.log('Student issuing book - User:', req.user, 'Student ID:', studentId);
+
+        if (!studentId) {
+            return res.status(400).json({ message: 'User ID not found in token' });
+        }
 
         // Check if student already has this book issued
         const existingIssue = await IssuedBook.findOne({
@@ -144,14 +150,20 @@ const studentIssueBook = async (req, res) => {
         res.status(201).json({ message: 'Book issued successfully' });
     } catch (error) {
         console.error('Student issue book error:', error);
-        res.status(500).json({ message: 'Server Error' });
+        res.status(500).json({ message: 'Server Error', error: error.message });
     }
 };
 
 // Get student's borrowed books
 const getMyBorrowedBooks = async (req, res) => {
     try {
-        const studentId = req.user._id || req.user.id || req.user.userId;
+        console.log('User from token:', req.user);
+        const studentId = req.user.userId || req.user._id || req.user.id;
+        console.log('Student ID:', studentId);
+
+        if (!studentId) {
+            return res.status(400).json({ message: 'User ID not found in token' });
+        }
 
         const borrowedBooks = await IssuedBook.find({
             student: studentId,
@@ -159,6 +171,8 @@ const getMyBorrowedBooks = async (req, res) => {
         })
         .populate('book', 'title author isbn')
         .sort({ issueDate: -1 });
+
+        console.log('Found borrowed books:', borrowedBooks.length);
 
         const formattedBooks = borrowedBooks.map(issued => ({
             id: issued._id,
@@ -175,7 +189,7 @@ const getMyBorrowedBooks = async (req, res) => {
         res.json(formattedBooks);
     } catch (error) {
         console.error('Get borrowed books error:', error);
-        res.status(500).json({ message: 'Server Error' });
+        res.status(500).json({ message: 'Server Error', error: error.message });
     }
 };
 
