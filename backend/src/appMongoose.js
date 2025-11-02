@@ -1,14 +1,12 @@
 const mongoose = require('mongoose');
 
 // MongoDB Atlas connection string
-const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://shivansubisht77_db_user:shark77@cluster0.o2ynz3t.mongodb.net/libraryapp?retryWrites=true&w=majority&appName=Cluster0';
+// Replace <username> and <password> with your actual MongoDB Atlas credentials
+const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://shivansubisht77_db_user:kickbash@cluster0.ioib2jp.mongodb.net/newnov?retryWrites=true&w=majority';
 
 const connectDB = async () => {
     try {
-        const conn = await mongoose.connect(MONGO_URI, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
+        const conn = await mongoose.connect(MONGO_URI);
         console.log(`MongoDB Atlas Connected: ${conn.connection.host}`);
         console.log(`Database: ${conn.connection.name}`);
     } catch (error) {
